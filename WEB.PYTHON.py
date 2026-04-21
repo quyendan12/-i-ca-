@@ -3,7 +3,7 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
-# C?u h�nh Cloudinary c?a b?n
+# Cấu hình Cloudinary của bạn
 cloudinary.config(
     cloud_name = "dn6rqvvvd",
     api_key = "251922673532191",
@@ -11,22 +11,22 @@ cloudinary.config(
     secure = True
 )
 
-st.set_page_config(page_title="Photo Share", page_icon="??")
-st.title("?? Web Chia S? ?nh ?�m M�y")
+st.set_page_config(page_title="Photo Share", page_icon="📸")
+st.title("📸 Web Chia Sẻ Ảnh Đám Mây")
 
-# Giao di?n t?i ?nh
+# Giao diện tải ảnh
 with st.sidebar:
-    st.header("T?i ?nh m?i")
-    uploaded_file = st.file_uploader("Ch?n ?nh t? m�y...", type=["jpg", "png", "jpeg"])
+    st.header("Tải ảnh mới")
+    uploaded_file = st.file_uploader("Chọn ảnh từ máy...", type=["jpg", "png", "jpeg"])
     if uploaded_file:
-        with st.spinner("?ang t?i l�n..."):
+        with st.spinner("Đang tải lên..."):
             cloudinary.uploader.upload(uploaded_file)
-            st.success("T?i l�n th�nh c�ng!")
+            st.success("Tải lên thành công!")
             st.rerun()
 
 st.write("---")
 
-# Hi?n th? ?nh
+# Hiển thị ảnh
 try:
     res = cloudinary.api.resources(type="upload", max_results=12)
     images = res.get("resources", [])
@@ -36,6 +36,6 @@ try:
             with cols[i % 3]:
                 st.image(img['secure_url'], use_container_width=True)
     else:
-        st.info("Ch?a c� ?nh n�o ???c chia s?.")
+        st.info("Chưa có ảnh nào được chia sẻ.")
 except Exception as e:
-    st.error(f"L?i k?t n?i Cloudinary: {e}")
+    st.error(f"Lỗi kết nối Cloudinary: {e}")
